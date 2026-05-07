@@ -3,7 +3,7 @@ from fastapi.responses import StreamingResponse
 from PIL import Image
 import io
 
-from app.model import predict
+from model import predict
 
 app = FastAPI(title="Segmentation API")
 
