@@ -11,3 +11,4 @@ streamlit==1.56.0
 Pillow==10.4.0
 torch
 torchvision
+segmentation-models-pytorch
