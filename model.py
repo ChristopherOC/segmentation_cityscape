@@ -3,7 +3,7 @@ from PIL import Image
 import numpy as np
 import torchvision.transforms as T
 
-from unet import UNet  # ton modèle
+import segmentation_models_pytorch as smp
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -28,9 +28,16 @@ SUPERCAT_COLORS = {
 }
 
 def load_model():
-    model = UNet(in_channels=3, num_classes=8)
-    checkpoint = torch.load("unet_model2.pth", map_location=DEVICE)
+    model = smp.Unet(
+        encoder_name="efficientnet-b4",
+        encoder_weights=None,
+        in_channels=3,
+        classes=8
+    )
+
+    checkpoint = torch.load("unet_u_model.pth", map_location=DEVICE)
     model.load_state_dict(checkpoint["model_state_dict"])
+
     model.to(DEVICE)
     model.eval()
     return model
