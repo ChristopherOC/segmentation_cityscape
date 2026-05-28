@@ -9,5 +9,5 @@ azure-storage-blob
 gunicorn
 streamlit==1.56.0
 Pillow==10.4.0
-torch==2.5.1+cu121
-torchvision==0.20.1+cu121
+torch
+torchvision
