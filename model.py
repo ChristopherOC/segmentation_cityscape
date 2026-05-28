@@ -33,7 +33,7 @@ MODEL_PATH = "unet_u_model.pth"
 
 # Variables Azure
 AZURE_CONNECTION_STRING = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
-CONTAINER_NAME = "models"
+CONTAINER_NAME = "unetmodel"
 BLOB_NAME = "unet_u_model.pth"
 
 
