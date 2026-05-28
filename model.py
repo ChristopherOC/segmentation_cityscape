@@ -4,6 +4,8 @@ import numpy as np
 import torchvision.transforms as T
 
 import segmentation_models_pytorch as smp
+import os
+from azure.storage.blob import BlobClient
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -27,6 +29,35 @@ SUPERCAT_COLORS = {
     7: (0,0,142),
 }
 
+MODEL_PATH = "unet_u_model.pth"
+
+# Variables Azure
+AZURE_CONNECTION_STRING = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
+CONTAINER_NAME = "models"
+BLOB_NAME = "unet_u_model.pth"
+
+
+def download_model():
+
+    # Si le modèle existe déjàne rien faire
+    if os.path.exists(MODEL_PATH):
+        print("Modèle déjà présent")
+        return
+
+    print("Téléchargement du modèle depuis Azure Blob Storage...")
+
+    blob_client = BlobClient.from_connection_string(
+        conn_str=AZURE_CONNECTION_STRING,
+        container_name=CONTAINER_NAME,
+        blob_name=BLOB_NAME
+    )
+
+    with open(MODEL_PATH, "wb") as f:
+        data = blob_client.download_blob()
+        f.write(data.readall())
+
+    print("Téléchargement terminé")
+
 def load_model():
     model = smp.Unet(
         encoder_name="efficientnet-b4",
@@ -42,7 +73,9 @@ def load_model():
     model.eval()
     return model
 
+download_model()
 model = load_model()
+
 
 def seg_map_to_rgb(seg_map):
     h, w = seg_map.shape
