@@ -42,7 +42,7 @@ if uploaded_file is not None:
 
                 # Appel API FastAPI
                 response = requests.post(
-                    "https://cityscape-g0e4fddycydje0ad.francecentral-01.azurewebsites.net",
+                    "https://cityscape-g0e4fddycydje0ad.francecentral-01.azurewebsites.net/predict",
                     files=files
                 )
 
